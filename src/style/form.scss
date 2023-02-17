@@ -1,0 +1,33 @@
+form{
+    width: 100%;
+}
+label {
+    width: calc(100% - 2rem);
+    box-sizing: border-box;
+    margin: 0 1rem;
+    font-size: .8rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+input {
+    outline: 1px solid #444;
+    width: calc(100% - 3rem);
+    padding: .5rem;
+    box-sizing: border-box;
+    margin: .25rem 1rem;
+    border-radius: .25rem;
+    cursor: auto;
+    opacity: .6;
+}
+
+input:focus{
+    opacity: 1;
+    outline: 2px solid #444;
+    font-weight: 400;
+    box-shadow: 0 0 1rem rgba(0,0,0,.5);
+}
+
+label:has(input:focus){
+    font-weight: 700;
+}
