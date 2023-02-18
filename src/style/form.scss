@@ -1,6 +1,8 @@
 form{
     width: 100%;
+    margin: 1.5rem 0;
 }
+
 label {
     width: calc(100% - 2rem);
     box-sizing: border-box;
@@ -30,4 +32,20 @@ input:focus{
 
 label:has(input:focus){
     font-weight: 700;
+}
+
+button{
+    border-radius: .25rem;
+    display: inline-block;
+    font-size: inherit;
+    background-color: aquamarine;
+    border-bottom: 3px solid rgb(79, 179, 145);
+    padding: .5rem 1rem;
+    margin-right: auto;
+    cursor: pointer;
+}
+
+button:active{
+    margin-top: 2px;
+    border-bottom-width: 1px;
 }

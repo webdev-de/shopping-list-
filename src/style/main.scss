@@ -4,3 +4,12 @@
 @import "./font.scss";
 @import "./form.scss";
 
+.shopping-list--item {
+    list-style: none;
+    outline: 1px solid rgb(166, 166, 166);
+    border-radius: .25rem;
+    margin: .5rem;
+    width: calc(100% - 1rem);
+    padding: .5rem;
+    box-sizing: border-box;
+}
