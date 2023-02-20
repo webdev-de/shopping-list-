@@ -122,3 +122,38 @@ button:focus-visible {
     left: 0;
     box-shadow: $basic-box-shadow;
 }
+
+
+.serachbar{
+    box-sizing: border-box;
+    display: flex;
+    width: calc(100% - 2rem);
+    background-color: white;
+    padding: .25rem;
+    margin: 0 1rem;
+    border-radius: $basic-border-radius;
+}
+
+.serachbar input{
+    flex-grow: 1;
+    background: transparent;
+    outline: none;
+    border: none;
+    padding: .5rem 1rem;
+    color: #1c1c1c;
+}
+
+.serachbar input:focus{
+    outline: none;
+}
+
+.serachbar:has(input:focus){
+    outline: 3px solid green;
+}
+
+.serachbar button{
+    display: flex;
+    align-items: center;
+    border-radius: $basic-border-radius;
+
+}
