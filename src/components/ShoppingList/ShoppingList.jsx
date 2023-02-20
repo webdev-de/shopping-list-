@@ -1,141 +1,77 @@
 import { useState } from "react";
 import ShoppingList_Item from "./ShoppingList_Item";
-import { FaTrashAlt, FaListAlt, FaPlus } from 'react-icons/fa';
+import { FaTrashAlt, FaListAlt, FaPlus, FaSearch } from 'react-icons/fa';
+import uniqueID from "../../assets/scss/helper/uniqueID";
 
 const demoItems = [
   {
     id: 1,
+    list: "demo",
     done: true,
     name: "Produkt 1"
   },
   {
     id: 2,
+    list: "default",
     done: false,
     name: "Produkt 2"
   },
   {
     id: 3,
-    done: false,
+    list: "memo",
+    done: true,
     name: "Produkt 1"
   }
 ]
 
+
 const ShoppingList = () => {
+
   const [items, setItems] = useState(demoItems);
   const [itemInput, setItemInput] = useState("");
+  const [currentList, setCurrentList] = useState("default")
 
-  const [watchTrash, SetWatchTrash] = useState(false);
 
-  const handleToggleItem = (e) => {
-    const selectedID = Number(e.target.value);
-    const updatedItems = items.map((item) => item.id === selectedID ? { ...item, done: !item.done } : item);
-    setItems(updatedItems);
-  };
+  const getItems = (type = null, list = 'default') => {
 
-  const CountDoneItems = () => {
-    const count = items.reduce((acc, curr) => curr.done === false ? acc + 1 : acc, 0);
+    let allItems = items;
 
-    return (
-      <button className="icons-done_btn" onClick={() => SetWatchTrash(!watchTrash)}>
-        <FaListAlt color="rgba(255,255,255,.25)" />{count}
-      </button>
-    )
+    if (list !== null) {
+      allItems = allItems.filter((item => item.list === list))
+    }
+    if (type === 'done') return allItems.filter(item => item.done === true);
+    if (type === 'open') return allItems.filter(item => item.done === false);
+
+    return allItems;
   }
 
-  const CountNotDoneItems = () => {
-    const count = items.reduce((acc, curr) => curr.done === true ? acc + 1 : acc, 0);
-
-    return (
-      <button className="icons-done_btn" onClick={() => SetWatchTrash(!watchTrash)}>
-        <FaTrashAlt color="rgba(255,255,255,.25)" />{count}
-      </button>
-    )
-  }
-
-
-  const contItems = (type = "all") => {
-    if (type === "all") {
-      return items.length;
-    }
-    if (type === "done") {
-      return items.reduce((acc, curr) => curr.done === true ? acc + 1 : acc, 0)
-    }
-    if (type === "open") {
-      return items.reduce((acc, curr) => curr.done === false ? acc + 1 : acc, 0)
-    }
-
-    // Fallback
-
-    return 0;
-
-  }
-
-
-
-  const addListItem = (name) => {
-
-    if (name.length < 3) return alert("zu Kurzer Text");
-    if (items.some(item => item.name === name)) return  alert(`Es gibt schon ein eintrag mit dem namen "${name}"`);
-
-    const newID = Math.random().toString(36).substr(2, 9);
-
+  const addItem = () => {
     const newItem = {
-      id: newID,
+      id: uniqueID(),
+      list: "default",
       done: false,
-      name,
-    };
-
-    setItemInput('');
+      name: "Beispiel"
+    }
     setItems([...items, newItem])
   }
 
-  const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
-      addListItem(event.target.value)
-    }
-  };
+
+
 
   return (
     <div>
       <h2>Ich bin die Liste</h2>
 
-      <span>Alle Items = {contItems()}</span><br />
-      <span>Done Items = {contItems("done")}</span><br />
-      <span>Open Items = {contItems("open")}</span><br />
-      <span>Open Items = {contItems("openA")}</span>
-
-      <div className="list_head">
-        {!watchTrash && <CountDoneItems />}
-        {watchTrash && <CountNotDoneItems />}
-      </div>
-
-      <div>
+      {getItems(null, currentList).length >= 1 ? getItems(null, currentList).map(item => (
+        <ShoppingList_Item
+          key={item.id} id={item.id}
+          done={item.done} name={item.name}
+        />
+      )) : "Leider kein Eintrag gefunden"}
 
 
-        {watchTrash && items.map(item => !item.done &&
-          <ShoppingList_Item
-            key={item.id} id={item.id}
-            done={item.done} name={item.name}
-            handleToggleItem={handleToggleItem}
-          />
-        )}
 
-        {!watchTrash && items.map(item => item.done &&
-          <ShoppingList_Item
-            key={item.id} id={item.id}
-            done={item.done} name={item.name}
-            handleToggleItem={handleToggleItem}
-          />
-
-        )}
-
-      </div>
-
-
-      <div className="add-item-box">
-        <input value={itemInput} onChange={(e) => setItemInput(e.target.value)} onKeyDown={handleKeyDown} />
-        <button onClick={() => addListItem(itemInput)}><FaPlus /></button>
-      </div>
+      <button onClick={addItem}>AddItem</button>
     </div>
   );
 }
