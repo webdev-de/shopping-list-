@@ -8,7 +8,6 @@ const uniqueID = () => {
         return v.toString(16);
     });
 
-
     return hash+(timeStamp.toString(16).substring(2));
 }
 
